@@ -6,7 +6,7 @@ public class Leitor extends Thread {
     private ArrayList<String> lista;
     private final ArrayList<String> base;
 
-    public Leitor(ArrayList<String> base){
+    public Leitor(ArrayList<String> base) {
 
         lista = new ArrayList<>();
         this.base = base;
@@ -14,7 +14,7 @@ public class Leitor extends Thread {
 
     public void run(){
 
-        for(int i = 0; i < 100; i++){
+        for (int i = 0; i < 100; i++) {
 
             int posicao = ThreadLocalRandom.current().nextInt(0, 36241);
 

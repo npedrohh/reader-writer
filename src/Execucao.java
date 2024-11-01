@@ -9,20 +9,33 @@ public class Execucao {
     static Semaphore bd; // Semáforo de acesso ao banco
     static int cl; // Contador de leitores
 
-    public Execucao(int leitores, int escritores, ArrayList<String> base) {
+    // Construtor da classe - o parâmetro algoritmo define se a execução utiliza ou não a implementação de Leitores e Escritores
+    public Execucao(int leitores, int escritores, ArrayList<String> base, int algoritmo) {
         leitores_escritores = new ArrayList<>();
 
-        // Adiciona os leitores e escritores à lista seguindo a proporção
-        for (int i = 0; i < leitores; i++) leitores_escritores.add(new Leitor(base));
+        // Inicializa o semáforo de acesso à base de dados (usado nos dois algoritmos)
+        bd = new Semaphore(1);
+
+        // Adiciona os escritores à lista seguindo a proporção
         for (int i = 0; i < escritores; i++) leitores_escritores.add(new Escritor(base));
+
+        // Algoritmo que utiliza a implementação de Leitores e Escritores
+        if (algoritmo == 0) {
+            // Adiciona os leitores e escritores à lista seguindo a proporção
+            for (int i = 0; i < leitores; i++) leitores_escritores.add(new Leitor(base));
+
+            // Inicializa o mutex e o contador de leitores
+            mutex = new Semaphore(1);
+            cl = 0;
+        }
+        // Algoritmo que não utiliza a implementação de Leitores e Escritores (todos os objetos bloqueiam a base)
+        else {
+            // Adiciona os leitores e escritores à lista seguindo a proporção
+            for (int i = 0; i < leitores; i++) leitores_escritores.add(new LeitorBloqueio(base));
+        }
 
         // Coloca cada leitor/escritor em uma posição aleatória do array
         Collections.shuffle(leitores_escritores);
-
-        // Inicializa os semáforos e o contador de leitores
-        mutex = new Semaphore(1);
-        bd = new Semaphore(1);
-        cl = 0;
     }
 
     // Executa os objetos leitor/escritor em threads

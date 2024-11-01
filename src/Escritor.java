@@ -6,7 +6,7 @@ public class Escritor extends Thread {
     private ArrayList<String> lista;
     private ArrayList<String> base;
 
-    public Escritor(ArrayList<String> base){
+    public Escritor(ArrayList<String> base) {
 
         lista = new ArrayList<>();
         this.base = base;
@@ -14,7 +14,7 @@ public class Escritor extends Thread {
 
     public void run(){
 
-        for(int i = 0; i < 100; i++){
+        for (int i = 0; i < 100; i++) {
 
             int posicao = ThreadLocalRandom.current().nextInt(0, 36241);
 
