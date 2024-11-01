@@ -5,34 +5,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Main {
-
-    static ArrayList<String> base = new ArrayList<>();
+    static ArrayList<String> base = new ArrayList<>(); // Base de dados
 
     public static void main(String[] args) {
-
+        // Insere os dados na estrutura
         inicializarBase();
+        // System.out.println(base.toString());
+        Execucao execucao;
 
-        ArrayList<Thread> leitores_escritores;
-        int leitores = 100;
-        int escritores = 0;
+        // Cria execuções seguindo diferentes proporções de leitores/escritores
+        for (int i = 0; i <= 100; i++) {
 
-        for(int i = 0; leitores >= 0 && escritores <= 100; i++){
+            // Para cada proporção, cria 50 execuções diferentes
+            for (int j = 0; j < 50; j++) {
 
-            for(int j = 0; j < 50; j++) {
-
-                leitores_escritores = inicializarLeitoresEscritores(leitores, escritores);
-
-
+                execucao = new Execucao (i, 100-i, base);
+                execucao.iniciaThreads();
             }
-
-            leitores--;
-            escritores++;
+            System.out.println(i);
         }
     }
 
-    private static void inicializarBase(){
-
-        String filePath = "C:\\Users\\koutary\\IdeaProjects\\readerwriter\\src\\bd.txt";
+    // Função que lê o arquivo e insere na estrutura de dados
+    private static void inicializarBase() {
+        String filePath = "src/bd.txt"; // Caminho
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String linha;
 
