@@ -29,7 +29,9 @@ public class Main {
                 fim = System.currentTimeMillis();
 
                 media += (fim - inicio);
+            }
 
+            for (int j = 0; j < 50; j++) {
                 base = inicializarBase(); // Insere os dados na estrutura
                 execucao = new Execucao(100-i, i, base, 1); // Cria uma execução sem fazer uso de Leitores e Escritores
 
@@ -39,6 +41,7 @@ public class Main {
 
                 mediaBloqueio += (fim - inicio);
             }
+
             media /= 50;
             mediaBloqueio /= 50;
 
