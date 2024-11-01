@@ -6,8 +6,6 @@ public class Escritor extends Thread {
 
     private ArrayList<String> lista;
     private ArrayList<String> base;
-    private static Semaphore mutex = new Semaphore(1);
-    private static int rc = 0;
 
     public Escritor(ArrayList<String> base){
 
@@ -19,12 +17,23 @@ public class Escritor extends Thread {
 
         for(int i = 0; i < 100; i++){
 
-
-
             int posicao = ThreadLocalRandom.current().nextInt(0, 36241);
 
-            base.set(posicao, "MODIFICADO");
+            try {
+                Semaforos.bd.acquire();
+                base.set(posicao, "MODIFICADO");
+                Semaforos.bd.release();
+            } catch (InterruptedException e) {
+                System.out.println("Erro ao modificar a base: " + e.getMessage());
+            }
         }
+
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            System.out.println("Erro ao simular verificação: " + e.getMessage());
+        }
+
     }
 
 }
