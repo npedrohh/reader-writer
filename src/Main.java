@@ -32,7 +32,7 @@ public class Main {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String linha;
 
-            while ((linha = br.readLine()) != null){
+            while ((linha = br.readLine()) != null) {
 
                 base.add(linha);
             }
@@ -41,33 +41,4 @@ public class Main {
             System.out.println("Erro ao inicializar a base: " + e.getMessage());
         }
     }
-
-    private static ArrayList<Thread> inicializarLeitoresEscritores(int leitores, int escritores) {
-
-        ArrayList<Thread> leitores_escritores = new ArrayList<>();
-
-        while(leitores > 0){
-
-            Leitor leitor = new Leitor(base);
-
-            leitores_escritores.add(leitor);
-
-            leitores--;
-        }
-
-        while(escritores > 0){
-
-            Escritor escritor = new Escritor(base);
-
-            leitores_escritores.add(escritor);
-
-            escritores--;
-        }
-
-        Collections.shuffle(leitores_escritores);
-
-        return leitores_escritores;
-    }
-
-
 }

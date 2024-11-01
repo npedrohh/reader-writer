@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Escritor extends Thread {
@@ -20,9 +19,9 @@ public class Escritor extends Thread {
             int posicao = ThreadLocalRandom.current().nextInt(0, 36241);
 
             try {
-                Semaforos.bd.acquire();
+                Execucao.bd.acquire();
                 base.set(posicao, "MODIFICADO");
-                Semaforos.bd.release();
+                Execucao.bd.release();
             } catch (InterruptedException e) {
                 System.out.println("Erro ao modificar a base: " + e.getMessage());
             }

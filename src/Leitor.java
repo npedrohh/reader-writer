@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Leitor extends Thread {
 
     private ArrayList<String> lista;
-    private ArrayList<String> base;
+    private final ArrayList<String> base;
 
     public Leitor(ArrayList<String> base){
 
@@ -19,10 +18,24 @@ public class Leitor extends Thread {
 
             int posicao = ThreadLocalRandom.current().nextInt(0, 36241);
 
-            lista.add(base.get(posicao));
+            try {
+                Execucao.mutex.acquire();
+                Execucao.cl++;
+                if(Execucao.cl == 1) Execucao.bd.acquire();
+                Execucao.mutex.release();
+
+                // Leitura
+                lista.add(base.get(posicao));
+
+                Execucao.mutex.acquire();
+                Execucao.cl--;
+                if(Execucao.cl == 0) Execucao.bd.release();
+                Execucao.mutex.release();
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+
+
         }
     }
 }
-
-
-
