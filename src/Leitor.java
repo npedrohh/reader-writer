@@ -26,6 +26,7 @@ public class Leitor extends Thread {
 
                 // Leitura
                 lista.add(base.get(posicao));
+                if(i == 99) Thread.sleep(1);
 
                 Execucao.mutex.acquire();
                 Execucao.cl--;
@@ -34,8 +35,6 @@ public class Leitor extends Thread {
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
             }
-
-
         }
     }
 }

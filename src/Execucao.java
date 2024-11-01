@@ -29,12 +29,15 @@ public class Execucao {
     public void iniciaThreads() {
         for (Thread thread : leitores_escritores) {
             thread.start();
+        }
+
+        for (Thread thread : leitores_escritores) {
             try {
                 thread.join();
             } catch (InterruptedException e) {
                 System.out.println("Erro ao dar join na thread: " + e.getMessage());
             }
         }
-
     }
+
 }

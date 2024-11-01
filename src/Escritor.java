@@ -20,19 +20,15 @@ public class Escritor extends Thread {
 
             try {
                 Execucao.bd.acquire();
+
                 base.set(posicao, "MODIFICADO");
+                if(i == 99) Thread.sleep(1);
+
                 Execucao.bd.release();
             } catch (InterruptedException e) {
                 System.out.println("Erro ao modificar a base: " + e.getMessage());
             }
         }
-
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            System.out.println("Erro ao simular verificação: " + e.getMessage());
-        }
-
     }
 
 }
